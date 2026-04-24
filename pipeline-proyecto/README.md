@@ -1,27 +1,29 @@
-# Pipeline de Ingesta de Datos - Proyecto Final
+# Pipeline de Datos - Coffee Quality Project
 
-## 1. Descripción del Proyecto
-Este proyecto implementa la primera fase funcional de un pipeline de datos: la **Ingesta Automatizada**. El objetivo es extraer datos desde una fuente de origen (en este caso, un dataset estructurado en formato CSV) y almacenarlos de forma organizada en una arquitectura local siguiendo buenas prácticas de ingeniería de datos.
+## 1. Descripción
+Este proyecto consiste en un pipeline automatizado para la gestión de datos de calidad de café. El flujo abarca desde la descarga de datos crudos hasta la preparación para su carga en bases de datos relacionales.
 
-## 2. Arquitectura de Directorios
-El proyecto sigue una estructura modular para garantizar el orden y la trazabilidad:
+## 2. Estructura del Proyecto
+- `scripts/ingesta.py`: Descarga los datos desde la fuente original.
+- `scripts/validacion.py`: Limpia y filtra los datos (Actividad 2.3.2).
+- `data/raw/`: Almacena los archivos CSV originales con sello de fecha.
+- `data/processed/`: Contiene los datos limpios listos para usar.
+- `data/reports/`: Logs de errores y trazabilidad del proceso.
 
-- `scripts/`: Contiene el motor lógico del pipeline (`ingesta.py`).
-- `data/`: Directorio raíz para el almacenamiento de información (ignorado por Git).
-  - `raw/`: Zona de aterrizaje (**Landing Zone**) para los datos crudos, sin procesar.
-- `config/`: Archivos de configuración y rutas.
-- `requirements.txt`: Listado de librerías necesarias para la ejecución.
+## 3. Proceso de Ingesta
+El script de ingesta conecta con un repositorio de GitHub para extraer un dataset de "Coffee Ratings". 
+- **Trazabilidad**: Los archivos se guardan como `ingesta_YYYY-MM-DD.csv` para evitar pérdidas de datos.
+- **Robustez**: Incluye manejo de excepciones para evitar caídas si falla la conexión.
 
-## 3. Flujo de Ingesta (Paso a Paso)
-El script de ingesta realiza las siguientes acciones de forma lineal:
-1. **Verificación de Entorno**: Comprueba la existencia de las carpetas de destino y las crea si es necesario.
-2. **Extracción (Extract)**: Conecta con la fuente de origen mediante protocolos HTTP (librería `requests`).
-3. **Control de Errores**: Valida que la respuesta sea exitosa (Status 200) antes de escribir en disco.
-4. **Almacenamiento con Trazabilidad**: Guarda el archivo en la carpeta `data/raw/` añadiendo un sello de fecha (`YYYY-MM-DD`) al nombre del archivo para mantener un historial de cargas.
+## 4. Validación y Carga (Actividad 2.4.2)
+Siguiendo los requisitos de la guía técnica:
+- Se eliminan nulos y duplicados.
+- Se valida que los puntajes de cata estén en el rango lógico (0-100).
+- Se prepara la información para la carga en base de datos, asegurando la integridad de los tipos de datos.
 
-## 4. Requisitos e Instalación
-Para que este pipeline sea **reproducible**, es necesario contar con Python 3.x e instalar las dependencias:
+## 5. Requisitos
+- Python 3.x
+- Librerías: `requests`, `pandas`
 
 ```bash
-RECUERDE TIRAR ESTE COMANDO EN EL TERMINAL PRIMERO
-pip install requests
+pip install requests pandas

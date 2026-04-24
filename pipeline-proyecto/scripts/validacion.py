@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from datetime import datetime
 
 # Configuración de rutas automáticas
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -51,12 +52,32 @@ def validar_y_limpiar():
     df.to_csv(os.path.join(RUTA_PROCESSED, "datos_limpios.csv"), index=False)
     
     # Generar reporte de errores 
-    with open(os.path.join(RUTA_REPORTS, "reporte_errores.txt"), "w") as f:
-        f.write("REPORTE DE VALIDACIÓN Y CALIDAD\n")
-        f.write("==============================\n")
-        f.write("\n".join(reporte) if reporte else "Validación exitosa: No se detectaron errores.")
+    os.makedirs(RUTA_REPORTS, exist_ok=True)
     
-    print(f"Validación terminada. Datos en 'processed' y reporte en 'reports'.")
+    fecha_ejecucion = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    with open(os.path.join(RUTA_REPORTS, "reporte_errores.txt"), "w") as f:
+        f.write("==========================================\n")
+        f.write("   REPORTE DE VALIDACIÓN Y CALIDAD DE DATOS\n")
+        f.write("==========================================\n")
+        f.write(f"Fecha de ejecución: {fecha_ejecucion}\n")
+        f.write(f"Archivo procesado:  {archivo_reciente}\n")
+        f.write("------------------------------------------\n\n")
+        
+        f.write("1. RESUMEN DE PROCESAMIENTO:\n")
+        f.write(f"- Registros iniciales: {antes}\n")
+        f.write(f"- Registros finales:   {len(df)}\n")
+        f.write(f"- Registros eliminados: {antes - len(df)}\n\n")
+        
+        f.write("2. DETALLE DE VALIDACIONES:\n")
+        if reporte:
+            for error in reporte:
+                f.write(f"[ERROR/INFO] {error}\n")
+        else:
+            f.write("ESTADO: Validación exitosa. No se detectaron anomalías.\n")
+            
+        f.write("\n------------------------------------------\n")
+        f.write("Fin del reporte automatizado.\n")
 
 if __name__ == "__main__":
     validar_y_limpiar()
