@@ -1,14 +1,19 @@
-# main.py
+
 from scripts.ingesta import ejecutar_ingesta
+from scripts.validacion import validar_y_limpiar
 
 def ejecutar_pipeline():
-    print("--- Iniciando Pipeline de Datos ---")
     
-    # PASO 1: Ingesta
+    
+    
+    
     ejecutar_ingesta()
     
-    # Aquí añadirás el PASO 2 (Transformación) en la siguiente sesión
-    print("--- Pipeline finalizado con éxito ---")
+    
+    
+    validar_y_limpiar()
+    
+    print("\n--- PIPELINE FINALIZADO CON ÉXITO ---")
 
 if __name__ == "__main__":
     ejecutar_pipeline()
