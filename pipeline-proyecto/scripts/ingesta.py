@@ -2,23 +2,22 @@ import os
 import requests
 from datetime import datetime
 
+# Configuración de rutas automáticas
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CARPETA_RAW = os.path.join(BASE_DIR, "data", "raw")
 
 URL_ORIGEN = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-07-07/coffee_ratings.csv"
-CARPETA_RAW = "data/raw"
 
 def ejecutar_ingesta():
-    
-    if not os.path.exists(CARPETA_RAW):
-        os.makedirs(CARPETA_RAW)
-        print(f"Carpeta creada: {CARPETA_RAW}")
+    # Garantiza la arquitectura de carpetas
+    os.makedirs(CARPETA_RAW, exist_ok=True)
 
     try:
-        
-        print("Descargando datos...")
+        print(f"Descargando datos desde: {URL_ORIGEN}")
         respuesta = requests.get(URL_ORIGEN)
-        respuesta.raise_for_status() # Control de errores
+        respuesta.raise_for_status()
 
-        
+        # Nombre de archivo con fecha para trazabilidad
         fecha_hoy = datetime.now().strftime("%Y-%m-%d")
         nombre_archivo = f"ingesta_{fecha_hoy}.csv"
         ruta_final = os.path.join(CARPETA_RAW, nombre_archivo)
