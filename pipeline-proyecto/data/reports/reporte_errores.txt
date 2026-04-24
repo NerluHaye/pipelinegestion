@@ -1,3 +1,0 @@
-REPORTE DE VALIDACIÓN Y CALIDAD
-==============================
-LIMPIEZA: Se eliminaron 1 registros duplicados o con nulos.
