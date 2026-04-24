@@ -23,4 +23,5 @@ El script de ingesta realiza las siguientes acciones de forma lineal:
 Para que este pipeline sea **reproducible**, es necesario contar con Python 3.x e instalar las dependencias:
 
 ```bash
-pip install -r requirements.txt
+RECUERDE TIRAR ESTE COMANDO EN EL TERMINAL PRIMERO
+pip install requests
